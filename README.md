@@ -4,7 +4,7 @@ A real-time web-based auction platform where sellers can create auctions for the
 
 The project is developed using **Angular, Java/Advanced Java, Spring Boot, WebSocket and MySQL**.
 
----
+--
 
 ## 📌 Project Overview
 
