@@ -1,4 +1,4 @@
-# live-auction-bidding-platform
+# Live-auction-bidding-platform
 
 A real-time web-based auction platform where sellers can create auctions for their products and buyers can participate by placing bids. The system provides real-time bid updates using WebSocket and stores auction data in MySQL.
 
