@@ -1,0 +1,392 @@
+<div class="register-page">
+
+  <div class="glow glow-one"></div>
+  <div class="glow glow-two"></div>
+
+  <!-- Left visual section -->
+  <section class="register-visual">
+
+    <div class="visual-overlay"></div>
+
+    <div class="visual-content">
+
+      <div class="brand">
+        <div class="brand-icon">⚖</div>
+        <span>Live <strong>Auction</strong></span>
+      </div>
+
+      <p class="tagline">
+        Bid • Win • Own
+      </p>
+
+      <div class="auction-info">
+
+        <span class="live-badge">
+          ● JOIN THE AUCTION
+        </span>
+
+        <h2>
+          Create Your Account.<br />
+          Start Your Auction Journey.
+        </h2>
+
+        <p>
+          Join our live auction community and discover
+          exclusive products from sellers around the world.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Register section -->
+  <section class="register-section">
+
+    <div class="register-card">
+
+      <!-- Mobile brand -->
+      <div class="mobile-brand">
+
+        <div class="brand-icon">
+          ⚖
+        </div>
+
+        <span>
+          Live <strong>Auction</strong>
+        </span>
+
+      </div>
+
+      <!-- Header -->
+      <div class="register-header">
+
+        <h1>
+          Create Account
+        </h1>
+
+        <p>
+          Join the live auction community
+        </p>
+
+      </div>
+
+      <!-- Register form -->
+      <form
+        class="register-form"
+        (ngSubmit)="onRegister()"
+      >
+
+        <!-- Error -->
+        @if (errorMessage) {
+
+          <div class="message error-message">
+
+            <span class="message-icon">
+              !
+            </span>
+
+            <span>
+              {{ errorMessage }}
+            </span>
+
+          </div>
+
+        }
+
+        <!-- Success -->
+        @if (successMessage) {
+
+          <div class="message success-message">
+
+            <span class="message-icon">
+              ✓
+            </span>
+
+            <span>
+              {{ successMessage }}
+            </span>
+
+          </div>
+
+        }
+
+        <!-- Full Name -->
+        <div class="form-group">
+
+          <label for="fullName">
+            Full Name
+          </label>
+
+          <div class="input-wrapper">
+
+            <span class="input-icon">
+              👤
+            </span>
+
+            <input
+              id="fullName"
+              name="fullName"
+              type="text"
+              placeholder="Enter your full name"
+              autocomplete="name"
+              [(ngModel)]="fullName"
+              [disabled]="isLoading()"
+            />
+
+          </div>
+
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+
+          <label for="email">
+            Email Address
+          </label>
+
+          <div class="input-wrapper">
+
+            <span class="input-icon">
+              ✉
+            </span>
+
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="Enter your email"
+              autocomplete="email"
+              [(ngModel)]="email"
+              [disabled]="isLoading()"
+            />
+
+          </div>
+
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+
+          <label for="password">
+            Password
+          </label>
+
+          <div class="input-wrapper">
+
+            <span class="input-icon">
+              🔒
+            </span>
+
+            <input
+              id="password"
+              name="password"
+              [type]="showPassword() ? 'text' : 'password'"
+              placeholder="Create a password"
+              autocomplete="new-password"
+              [(ngModel)]="password"
+              [disabled]="isLoading()"
+            />
+
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePassword()"
+              [disabled]="isLoading()"
+              [attr.aria-label]="
+                showPassword()
+                  ? 'Hide password'
+                  : 'Show password'
+              "
+            >
+              <span class="eye">
+                {{ showPassword() ? '🙈' : '👁️' }}
+              </span>
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group">
+
+          <label for="confirmPassword">
+            Confirm Password
+          </label>
+
+          <div class="input-wrapper">
+
+            <span class="input-icon">
+              🔒
+            </span>
+
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              [type]="
+                showConfirmPassword()
+                  ? 'text'
+                  : 'password'
+              "
+              placeholder="Confirm your password"
+              autocomplete="new-password"
+              [(ngModel)]="confirmPassword"
+              [disabled]="isLoading()"
+            />
+
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="toggleConfirmPassword()"
+              [disabled]="isLoading()"
+              [attr.aria-label]="
+                showConfirmPassword()
+                  ? 'Hide password'
+                  : 'Show password'
+              "
+            >
+              <span class="eye">
+                {{ showConfirmPassword() ? '🙈' : '👁️' }}
+              </span>
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- Terms -->
+        <label class="terms">
+
+          <input
+            type="checkbox"
+            name="terms"
+            [(ngModel)]="acceptedTerms"
+            [disabled]="isLoading()"
+          />
+
+          <span>
+            I agree to the
+            <a href="#">
+              Terms & Conditions
+            </a>
+          </span>
+
+        </label>
+
+        <!-- Create Account -->
+        <button
+          type="submit"
+          class="register-button"
+          [disabled]="isLoading()"
+        >
+
+          @if (isLoading()) {
+
+            <span class="loading-content">
+
+              <span class="spinner"></span>
+
+              Creating Account...
+
+            </span>
+
+          } @else {
+
+            <span>
+              Create Account
+            </span>
+
+            <span class="arrow">
+              →
+            </span>
+
+          }
+
+        </button>
+
+        <!-- Divider -->
+        <div class="divider">
+
+          <span></span>
+
+          <p>
+            OR
+          </p>
+
+          <span></span>
+
+        </div>
+
+        <!-- Social registration -->
+        <div class="social-buttons">
+
+          <button
+            type="button"
+            class="social-button"
+            [disabled]="isLoading()"
+          >
+
+            <span class="google-icon">
+              G
+            </span>
+
+            <span>
+              Google
+            </span>
+
+          </button>
+
+          <button
+            type="button"
+            class="social-button"
+            [disabled]="isLoading()"
+          >
+
+            <span>
+              ▦
+            </span>
+
+            <span>
+              Microsoft
+            </span>
+
+          </button>
+
+          <button
+            type="button"
+            class="social-button"
+            [disabled]="isLoading()"
+          >
+
+            <span>
+              ●
+            </span>
+
+            <span>
+              Apple
+            </span>
+
+          </button>
+
+        </div>
+
+        <!-- Login -->
+        <p class="login-text">
+
+          Already have an account?
+
+          <a routerLink="/login">
+            Sign In
+          </a>
+
+        </p>
+
+      </form>
+
+    </div>
+
+  </section>
+
+</div>
