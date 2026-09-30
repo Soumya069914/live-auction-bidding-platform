@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 export interface RegisterRequest {
   fullName: string;
@@ -28,20 +28,14 @@ export interface AuthResponse {
 })
 export class Auth {
 
-  private readonly apiUrl =
-    'http://localhost:8080/api/auth';
-
-  constructor(
-    private http: HttpClient
-  ) {}
-
   register(
     data: RegisterRequest
   ): Observable<void> {
 
-    return this.http.post<void>(
-      `${this.apiUrl}/register`,
-      data
+    console.log('Frontend registration:', data);
+
+    return of(void 0).pipe(
+      delay(800)
     );
   }
 
@@ -49,9 +43,10 @@ export class Auth {
     data: LoginRequest
   ): Observable<AuthResponse> {
 
-    return this.http.post<AuthResponse>(
-      `${this.apiUrl}/login`,
-      data
+    console.log('Frontend login:', data);
+
+    return throwError(() =>
+      new Error('Backend authentication is not connected yet.')
     );
   }
 
