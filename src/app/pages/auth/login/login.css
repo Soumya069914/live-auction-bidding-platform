@@ -245,7 +245,37 @@
   border: 0;
   background: transparent;
   color: #9ca3af;
+
   cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  margin: 0;
+
+  font-size: 18px;
+  line-height: 1;
+
+  transition: color 0.2s ease;
+}
+
+.password-toggle:hover {
+  color: #ffffff;
+}
+
+.password-toggle:focus {
+  outline: none;
+}
+
+.password-toggle .eye {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+  line-height: 1;
 }
 
 .forgot-link,
@@ -416,4 +446,94 @@
   .social-buttons {
     grid-template-columns: 1fr;
   }
+}
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  width: 100%;
+
+  padding: 12px 14px;
+  margin-bottom: 18px;
+
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  border-radius: 12px;
+
+  background: rgba(239, 68, 68, 0.08);
+
+  color: #fca5a5;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  animation: errorSlideIn 0.25s ease;
+}
+
+.error-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 20px;
+  height: 20px;
+
+  border-radius: 50%;
+
+  background: rgba(239, 68, 68, 0.2);
+
+  color: #f87171;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+@keyframes errorSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.loading-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.spinner {
+  width: 17px;
+  height: 17px;
+
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+
+  border-radius: 50%;
+
+  animation: loginSpinner 0.7s linear infinite;
+}
+
+@keyframes loginSpinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.login-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.social-button:disabled,
+.password-toggle:disabled,
+.login-form input:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
