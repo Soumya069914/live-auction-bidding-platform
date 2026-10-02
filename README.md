@@ -2,7 +2,7 @@
 
 A real-time web-based auction platform where sellers can create auctions for their products and buyers can participate by placing bids. The system provides real-time bid updates using WebSocket and stores auction data in MySQL.
 
-The project is developed using **Angular, Java/Advanced Java, Spring Boot, WebSocket and MySQL**.
+The project is developed using **Angular, Java/Advanced Java, Spring Boot, WebSocket, Webservices and MySQL**.
 
 ---
 
