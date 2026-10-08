@@ -1,6 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+
+import { Auth } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +14,10 @@ import { RouterLink } from '@angular/router';
   styleUrl: './login.css'
 })
 export class Login {
+
+  private authService = inject(Auth);
+
+  private router = inject(Router);
 
   email = '';
 
@@ -75,27 +81,40 @@ export class Login {
 
     this.isLoading.set(true);
 
-    console.log('Login clicked');
+    this.authService.login({
+      email: trimmedEmail,
+      password: trimmedPassword
+    }).subscribe({
 
-    console.log(
-      'Email:',
-      trimmedEmail
-    );
+      next: (response) => {
 
-    console.log(
-      'Password:',
-      trimmedPassword
-    );
+        console.log(
+          'Login successful:',
+          response
+        );
 
-    setTimeout(() => {
+        this.isLoading.set(false);
 
-      console.log(
-        'Login test completed'
-      );
+        this.router.navigate(['/dashboard']);
 
-      this.isLoading.set(false);
+      },
 
-    }, 1500);
+      error: (error) => {
+
+        console.error(
+          'Login failed:',
+          error
+        );
+
+        this.errorMessage =
+          'Login failed. Please try again.';
+
+        this.isLoading.set(false);
+
+      }
+
+    });
+
   }
 
   private isValidEmail(
@@ -106,6 +125,7 @@ export class Login {
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     return emailPattern.test(email);
+
   }
 
 }

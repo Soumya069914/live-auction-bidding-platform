@@ -45,8 +45,31 @@ export class Auth {
 
     console.log('Frontend login:', data);
 
-    return throwError(() =>
-      new Error('Backend authentication is not connected yet.')
+    const mockResponse: AuthResponse = {
+
+      token: 'mock-jwt-token-for-development',
+
+      user: {
+        id: 1,
+        fullName: 'Auction User',
+        email: data.email,
+        role: 'BUYER'
+      }
+
+    };
+
+    localStorage.setItem(
+      'auction_access_token',
+      mockResponse.token
+    );
+
+    localStorage.setItem(
+      'auction_user',
+      JSON.stringify(mockResponse.user)
+    );
+
+    return of(mockResponse).pipe(
+      delay(800)
     );
   }
 

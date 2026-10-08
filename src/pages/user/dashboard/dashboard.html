@@ -1,0 +1,492 @@
+<div class="dashboard-page">
+
+  <!-- =========================
+       TOP NAVIGATION
+       ========================= -->
+  <header class="topbar">
+
+    <div class="brand">
+      <span class="brand-icon">🔨</span>
+      <span class="brand-text">LiveAuction</span>
+    </div>
+
+    <nav class="nav-links">
+
+      <a routerLink="/dashboard">
+        Dashboard
+      </a>
+
+      <a routerLink="/auctions">
+        Auctions
+      </a>
+
+      <a routerLink="/profile">
+        Profile
+      </a>
+
+      <button
+        type="button"
+        class="logout-button"
+        (click)="logout()">
+        Logout
+      </button>
+
+    </nav>
+
+  </header>
+
+
+  <!-- =========================
+       MAIN CONTENT
+       ========================= -->
+  <main class="dashboard-content">
+
+
+    <!-- =========================
+         WELCOME
+         ========================= -->
+    <section class="welcome-section">
+
+      <div>
+
+        <p class="eyebrow">
+          Your auction dashboard
+        </p>
+
+        <h1>
+          Welcome, {{ user.fullName }} 👋
+        </h1>
+
+        <p class="welcome-text">
+          Keep track of your bids, discover new auctions,
+          and stay ahead of the competition.
+        </p>
+
+      </div>
+
+      <a
+        routerLink="/auctions"
+        class="primary-action">
+        Explore Auctions
+      </a>
+
+    </section>
+
+
+    <!-- =========================
+         STATISTICS
+         ========================= -->
+    <section class="stats-grid">
+
+
+      <!-- Active Bids -->
+      <article class="stat-card">
+
+        <div class="stat-icon">
+          🔥
+        </div>
+
+        <div>
+
+          <span class="stat-label">
+            Active Bids
+          </span>
+
+          <strong>
+            {{ stats.activeBids }}
+          </strong>
+
+          <small>
+            Currently participating
+          </small>
+
+        </div>
+
+      </article>
+
+
+      <!-- Auctions Won -->
+      <article class="stat-card">
+
+        <div class="stat-icon">
+          🏆
+        </div>
+
+        <div>
+
+          <span class="stat-label">
+            Auctions Won
+          </span>
+
+          <strong>
+            {{ stats.auctionsWon }}
+          </strong>
+
+          <small>
+            Successful purchases
+          </small>
+
+        </div>
+
+      </article>
+
+
+      <!-- Watchlist -->
+      <article class="stat-card">
+
+        <div class="stat-icon">
+          ❤️
+        </div>
+
+        <div>
+
+          <span class="stat-label">
+            Watchlist
+          </span>
+
+          <strong>
+            {{ stats.watchlistCount }}
+          </strong>
+
+          <small>
+            Auctions you're watching
+          </small>
+
+        </div>
+
+      </article>
+
+
+      <!-- Activities -->
+      <article class="stat-card">
+
+        <div class="stat-icon">
+          📊
+        </div>
+
+        <div>
+
+          <span class="stat-label">
+            Activities
+          </span>
+
+          <strong>
+            {{ stats.activitiesCount }}
+          </strong>
+
+          <small>
+            Recent account actions
+          </small>
+
+        </div>
+
+      </article>
+
+    </section>
+
+
+    <!-- =========================
+         ACTIVITY + QUICK ACTIONS
+         ========================= -->
+    <section class="dashboard-grid">
+
+
+      <!-- Recent Activity -->
+      <article class="glass-card activity-card">
+
+        <div class="section-heading">
+
+          <div>
+
+            <p class="eyebrow">
+              Account activity
+            </p>
+
+            <h2>
+              Recent Activity
+            </h2>
+
+          </div>
+
+          <span class="status-badge">
+            Live
+          </span>
+
+        </div>
+
+
+        <div class="activity-list">
+
+          @for (
+            activity of activities;
+            track activity.title
+          ) {
+
+            <div class="activity-item">
+
+              <div class="activity-icon">
+                {{ activity.icon }}
+              </div>
+
+              <div class="activity-content">
+
+                <h3>
+                  {{ activity.title }}
+                </h3>
+
+                <p>
+                  {{ activity.description }}
+                </p>
+
+              </div>
+
+              <span class="activity-time">
+                {{ activity.time }}
+              </span>
+
+            </div>
+
+          }
+
+        </div>
+
+      </article>
+
+
+      <!-- Quick Actions -->
+      <article class="glass-card quick-actions-card">
+
+        <div class="section-heading">
+
+          <div>
+
+            <p class="eyebrow">
+              Shortcuts
+            </p>
+
+            <h2>
+              Quick Actions
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="quick-actions">
+
+
+          <a
+            routerLink="/auctions"
+            class="quick-action">
+
+            <span class="quick-icon">
+              🔍
+            </span>
+
+            <span>
+
+              <strong>
+                Browse Auctions
+              </strong>
+
+              <small>
+                Find something worth bidding on
+              </small>
+
+            </span>
+
+            <span class="action-arrow">
+              →
+            </span>
+
+          </a>
+
+
+          <a
+            routerLink="/profile"
+            class="quick-action">
+
+            <span class="quick-icon">
+              👤
+            </span>
+
+            <span>
+
+              <strong>
+                View Profile
+              </strong>
+
+              <small>
+                Manage your account
+              </small>
+
+            </span>
+
+            <span class="action-arrow">
+              →
+            </span>
+
+          </a>
+
+
+        </div>
+
+      </article>
+
+    </section>
+
+
+    <!-- =========================
+         FEATURED LIVE AUCTION
+         ========================= -->
+    <section class="featured-auction">
+
+
+      <div class="featured-content">
+
+        <div class="featured-label">
+
+          <span class="live-dot"></span>
+
+          LIVE AUCTION
+
+        </div>
+
+
+        <p class="auction-category">
+          {{ featuredAuction.category }}
+        </p>
+
+
+        <h2>
+          {{ featuredAuction.title }}
+        </h2>
+
+
+        <p class="auction-description">
+          This auction is currently active.
+          Place your bid before the countdown reaches zero.
+        </p>
+
+
+        <div class="auction-meta">
+
+
+          <div>
+
+            <span>
+              Current bid
+            </span>
+
+            <strong>
+              ₹{{ featuredAuction.currentPrice }}
+            </strong>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Total bids
+            </span>
+
+            <strong>
+              {{ featuredAuction.totalBids }}
+            </strong>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Ends in
+            </span>
+
+            <strong class="countdown">
+              {{ remainingTime }}
+            </strong>
+
+          </div>
+
+
+        </div>
+
+
+        <a
+          routerLink="/auctions"
+          class="bid-button">
+
+          View Auction
+
+          <span>
+            →
+          </span>
+
+        </a>
+
+      </div>
+
+
+      <div class="auction-visual">
+
+        <div class="watch-circle">
+
+          <span>
+            ⌚
+          </span>
+
+        </div>
+
+
+        <div class="floating-price">
+
+          ₹{{ featuredAuction.currentPrice }}
+
+        </div>
+
+      </div>
+
+
+    </section>
+
+
+    <!-- =========================
+         AUCTION JOURNEY
+         ========================= -->
+    <section class="journey-card">
+
+      <div>
+
+        <p class="eyebrow">
+          Keep exploring
+        </p>
+
+        <h2>
+          Your next winning bid could be one click away.
+        </h2>
+
+        <p>
+          Explore active auctions and find products
+          that match your interests.
+        </p>
+
+      </div>
+
+
+      <a
+        routerLink="/auctions"
+        class="journey-button">
+
+        View Live Auctions →
+
+      </a>
+
+    </section>
+
+
+  </main>
+
+</div>
