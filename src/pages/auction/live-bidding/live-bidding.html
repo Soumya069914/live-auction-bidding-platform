@@ -1,0 +1,166 @@
+
+<div class="bidding-page">
+  <header class="page-header">
+    <button type="button" class="back-button" (click)="goBack()">
+      ← Back to Auction
+    </button>
+
+    <div class="header-content">
+      <div>
+        <span class="eyebrow">AUCTION ROOM #{{ auctionId }}</span>
+        <h1>{{ auctionTitle }}</h1>
+        <p>Follow the bids and place your offer in real time.</p>
+      </div>
+
+      <span class="status-badge" [class.ended]="!isLive">
+        <span class="status-dot"></span>
+        {{ isLive ? 'LIVE AUCTION' : 'AUCTION ENDED' }}
+      </span>
+    </div>
+  </header>
+
+  <section class="auction-summary">
+    <div class="summary-card">
+      <span class="summary-label">Current highest bid</span>
+      <strong class="current-price">
+        ₹{{ currentPrice | number:'1.0-0' }}
+      </strong>
+      <span class="summary-note">Leading bid</span>
+    </div>
+
+    <div class="summary-card">
+      <span class="summary-label">Minimum next bid</span>
+      <strong>
+        ₹{{ nextMinimumBid | number:'1.0-0' }}
+      </strong>
+      <span class="summary-note">
+        Increment: ₹{{ minimumBidIncrement | number:'1.0-0' }}
+      </span>
+    </div>
+
+    <div class="summary-card">
+      <span class="summary-label">Total bids</span>
+      <strong>{{ bidCount }}</strong>
+      <span class="summary-note">Recorded in this demo</span>
+    </div>
+  </section>
+
+  <main class="bidding-layout">
+    <section class="bid-panel">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">MAKE YOUR MOVE</span>
+          <h2>Place your bid</h2>
+        </div>
+        <span class="bid-icon">₹</span>
+      </div>
+
+      <p class="panel-description">
+        Enter an amount equal to or greater than the minimum next bid.
+      </p>
+
+      <div class="minimum-banner">
+        <span>Minimum acceptable bid</span>
+        <strong>₹{{ nextMinimumBid | number:'1.0-0' }}</strong>
+      </div>
+
+      <form (ngSubmit)="placeBid()" #bidForm="ngForm" novalidate>
+        <label for="bidAmount">Your bid amount (₹)</label>
+
+        <div class="amount-input">
+          <span>₹</span>
+          <input
+            id="bidAmount"
+            name="bidAmount"
+            type="number"
+            [(ngModel)]="bidAmount"
+            [min]="nextMinimumBid"
+            [step]="minimumBidIncrement"
+            [disabled]="!isLive || isSubmitting"
+            required
+            placeholder="Enter your bid"
+          />
+        </div>
+
+        <div class="quick-bids">
+          <button
+            type="button"
+            [disabled]="!isLive || isSubmitting"
+            (click)="bidAmount = nextMinimumBid"
+          >
+            Minimum bid
+          </button>
+
+          <button
+            type="button"
+            [disabled]="!isLive || isSubmitting"
+            (click)="bidAmount = nextMinimumBid + minimumBidIncrement"
+          >
+            + One increment
+          </button>
+        </div>
+
+        <p class="message error-message" *ngIf="errorMessage" role="alert">
+          {{ errorMessage }}
+        </p>
+
+        <p class="message success-message" *ngIf="successMessage" role="status">
+          {{ successMessage }}
+        </p>
+
+        <button
+          type="submit"
+          class="place-bid-button"
+          [disabled]="!isLive || isSubmitting"
+        >
+          {{ isSubmitting ? 'Submitting...' : 'Place Bid →' }}
+        </button>
+
+        <p class="demo-notice">
+          Demo mode: bids are stored only in this browser session.
+        </p>
+      </form>
+    </section>
+
+    <section class="history-panel">
+      <div class="section-heading history-heading">
+        <div>
+          <span class="eyebrow">BID ACTIVITY</span>
+          <h2>Bid history</h2>
+        </div>
+        <span class="bid-count">{{ bidCount }} bids</span>
+      </div>
+
+      <div class="history-list" *ngIf="bids.length > 0; else emptyHistory">
+        <article class="bid-row" *ngFor="let bid of bids; let i = index">
+          <div class="bidder-avatar">
+            {{ bid.bidderName.charAt(0).toUpperCase() }}
+          </div>
+
+          <div class="bidder-info">
+            <strong>{{ bid.bidderName }}</strong>
+            <span>{{ bid.placedAt | date:'medium' }}</span>
+          </div>
+
+          <div class="bid-value">
+            <strong>₹{{ bid.amount | number:'1.0-0' }}</strong>
+            <span *ngIf="i === 0" class="leading-label">Highest</span>
+          </div>
+        </article>
+      </div>
+
+      <ng-template #emptyHistory>
+        <div class="empty-history">
+          <span class="empty-icon">↗</span>
+          <h3>No bids yet</h3>
+          <p>Be the first to place a bid on this item.</p>
+        </div>
+      </ng-template>
+
+      <div class="history-footer">
+        <span class="live-indicator"></span>
+        Demo activity · Backend integration pending
+      </div>
+    </section>
+  </main>
+</div>

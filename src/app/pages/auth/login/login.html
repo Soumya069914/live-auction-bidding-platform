@@ -1,0 +1,304 @@
+<div class="login-page">
+
+  <div class="glow glow-one"></div>
+  <div class="glow glow-two"></div>
+
+  <section class="auction-visual">
+
+    <div class="visual-overlay"></div>
+
+    <div class="visual-content">
+
+      <div class="brand">
+
+        <div class="brand-icon">
+          ⚖
+        </div>
+
+        <span>
+          Live <strong>Auction</strong>
+        </span>
+
+      </div>
+
+      <p class="tagline">
+        Bid • Win • Own
+      </p>
+
+      <div class="auction-info">
+
+        <span class="live-badge">
+          ● LIVE AUCTION
+        </span>
+
+        <h2>
+          Discover. Bid.<br />
+          Own Something Extraordinary.
+        </h2>
+
+        <p>
+          Experience real-time auctions with competitive bidding
+          and premium products.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="login-section">
+
+    <div class="login-card">
+
+      <div class="mobile-brand">
+
+        <div class="brand-icon">
+          ⚖
+        </div>
+
+        <span>
+          Live <strong>Auction</strong>
+        </span>
+
+      </div>
+
+      <div class="login-header">
+
+        <h1>
+          Welcome Back
+        </h1>
+
+        <p>
+          Sign in to continue your auction journey
+        </p>
+
+      </div>
+
+      <form
+        class="login-form"
+        (ngSubmit)="onLogin()"
+      >
+
+        @if (errorMessage) {
+
+          <div class="error-message">
+
+            <span class="error-icon">
+              !
+            </span>
+
+            <span>
+              {{ errorMessage }}
+            </span>
+
+          </div>
+
+        }
+
+        <div class="form-group">
+
+          <label for="email">
+            Email Address
+          </label>
+
+          <div class="input-wrapper">
+
+            <span class="input-icon">
+              ✉
+            </span>
+
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="Enter your email"
+              autocomplete="email"
+              [(ngModel)]="email"
+              [disabled]="isLoading()"
+            />
+
+          </div>
+
+        </div>
+
+        <div class="form-group">
+
+          <div class="label-row">
+
+            <label for="password">
+              Password
+            </label>
+
+            <a
+              routerLink="/forgot-password"
+              class="forgot-link"
+            >
+              Forgot Password?
+            </a>
+
+          </div>
+
+          <div class="input-wrapper">
+
+            <span class="input-icon">
+              🔒
+            </span>
+
+            <input
+              id="password"
+              name="password"
+              [type]="showPassword ? 'text' : 'password'"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              [(ngModel)]="password"
+              [disabled]="isLoading()"
+            />
+
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePassword()"
+              [disabled]="isLoading()"
+              [attr.aria-label]="
+                showPassword
+                  ? 'Hide password'
+                  : 'Show password'
+              "
+            >
+
+              <span class="eye">
+                👁️
+              </span>
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <label class="remember">
+
+          <input
+            type="checkbox"
+            name="rememberMe"
+            [disabled]="isLoading()"
+          />
+
+          <span>
+            Remember me
+          </span>
+
+        </label>
+
+        <button
+          type="submit"
+          class="login-button"
+          [disabled]="isLoading()"
+        >
+
+          @if (isLoading()) {
+
+            <span class="loading-content">
+
+              <span class="spinner"></span>
+
+              Signing In...
+
+            </span>
+
+          } @else {
+
+            <span>
+              Sign In
+            </span>
+
+            <span class="arrow">
+              →
+            </span>
+
+          }
+
+        </button>
+
+        <div class="divider">
+
+          <span></span>
+
+          <p>
+            OR
+          </p>
+
+          <span></span>
+
+        </div>
+
+        <div class="social-buttons">
+
+          <button
+            type="button"
+            class="social-button"
+            [disabled]="isLoading()"
+          >
+
+            <span class="google-icon">
+              G
+            </span>
+
+            <span>
+              Google
+            </span>
+
+          </button>
+
+          <button
+            type="button"
+            class="social-button"
+            [disabled]="isLoading()"
+          >
+
+            <span>
+              ▦
+            </span>
+
+            <span>
+              Microsoft
+            </span>
+
+          </button>
+
+          <button
+            type="button"
+            class="social-button"
+            [disabled]="isLoading()"
+          >
+
+            <span>
+              ●
+            </span>
+
+            <span>
+              Apple
+            </span>
+
+          </button>
+
+        </div>
+
+        <p class="register-text">
+
+          Don't have an account?
+
+          <a routerLink="/register">
+            Create Account
+          </a>
+
+        </p>
+
+      </form>
+
+    </div>
+
+  </section>
+
+</div>

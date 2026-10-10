@@ -1,0 +1,422 @@
+<div class="auction-page">
+
+  <section class="auction-hero">
+
+    <div class="hero-content">
+
+      <span class="hero-badge">
+        LIVE AUCTIONS
+      </span>
+
+      <h1>
+        Discover Your
+        <span>Next Treasure</span>
+      </h1>
+
+      <p>
+        Explore exclusive products, place competitive
+        bids, and win items you love.
+      </p>
+
+    </div>
+
+    <div class="hero-stats">
+
+      <div class="stat-card">
+
+        <span class="stat-number">
+          {{ liveAuctionCount }}
+        </span>
+
+        <span class="stat-label">
+          Live Auctions
+        </span>
+
+      </div>
+
+      <div class="stat-card">
+
+        <span class="stat-number">
+          {{ upcomingAuctionCount }}
+        </span>
+
+        <span class="stat-label">
+          Upcoming
+        </span>
+
+      </div>
+
+      <div class="stat-card">
+
+        <span class="stat-number">
+          {{ endedAuctionCount }}
+        </span>
+
+        <span class="stat-label">
+          Completed
+        </span>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="filter-panel">
+
+    <div class="search-box">
+
+      <span class="search-icon">
+        🔍
+      </span>
+
+      <input
+        type="text"
+        placeholder="Search auctions, products, sellers..."
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+      />
+
+    </div>
+
+
+    <div class="filter-group">
+
+      <select
+        [(ngModel)]="selectedCategory"
+        (change)="onCategoryChange()"
+      >
+
+        <option value="ALL">
+          All Categories
+        </option>
+
+        @for (category of categories; track category) {
+
+          <option [value]="category">
+            {{ category }}
+          </option>
+
+        }
+
+      </select>
+
+
+      <select
+        [(ngModel)]="selectedStatus"
+        (change)="onStatusChange()"
+      >
+
+        <option value="ALL">
+          All Status
+        </option>
+
+        <option value="LIVE">
+          Live
+        </option>
+
+        <option value="UPCOMING">
+          Upcoming
+        </option>
+
+        <option value="ENDED">
+          Ended
+        </option>
+
+      </select>
+
+
+      <select
+        [(ngModel)]="sortOption"
+        (change)="onSortChange()"
+      >
+
+        <option value="NEWEST">
+          Newest
+        </option>
+
+        <option value="PRICE_LOW">
+          Price: Low to High
+        </option>
+
+        <option value="PRICE_HIGH">
+          Price: High to Low
+        </option>
+
+        <option value="BIDS_HIGH">
+          Most Bids
+        </option>
+
+      </select>
+
+
+      <button
+        type="button"
+        class="clear-button"
+        (click)="clearFilters()"
+      >
+        Clear
+      </button>
+
+    </div>
+
+  </section>
+
+
+  @if (isLoading) {
+
+    <section class="state-container">
+
+      <div class="loading-spinner"></div>
+
+      <h2>
+        Loading auctions...
+      </h2>
+
+      <p>
+        Please wait while we fetch the latest auctions.
+      </p>
+
+    </section>
+
+  }
+
+
+  @if (!isLoading && errorMessage) {
+
+    <section class="state-container error-state">
+
+      <div class="state-icon">
+        ⚠️
+      </div>
+
+      <h2>
+        Something went wrong
+      </h2>
+
+      <p>
+        {{ errorMessage }}
+      </p>
+
+      <button
+        type="button"
+        class="primary-button"
+        (click)="loadAuctions()"
+      >
+        Try Again
+      </button>
+
+    </section>
+
+  }
+
+
+  @if (!isLoading && !errorMessage) {
+
+    <section class="auction-section">
+
+      <div class="section-header">
+
+        <div>
+
+          <span class="section-label">
+            EXPLORE
+          </span>
+
+          <h2>
+            Featured Auctions
+          </h2>
+
+        </div>
+
+        <span class="result-count">
+          {{ filteredAuctions.length }}
+          auction{{ filteredAuctions.length === 1 ? '' : 's' }}
+        </span>
+
+      </div>
+
+
+      @if (filteredAuctions.length > 0) {
+
+        <div class="auction-grid">
+
+          @for (
+            auction of filteredAuctions;
+            track auction.id
+          ) {
+
+            <article class="auction-card">
+
+              <div class="auction-image-wrapper">
+
+                <img
+                  [src]="auction.imageUrl"
+                  [alt]="auction.title"
+                  class="auction-image"
+                />
+
+                <span
+                  class="status-badge"
+                  [class.live]="auction.status === 'LIVE'"
+                  [class.upcoming]="auction.status === 'UPCOMING'"
+                  [class.ended]="auction.status === 'ENDED'"
+                >
+                  @if (auction.status === 'LIVE') {
+                    ● LIVE
+                  } @else if (auction.status === 'UPCOMING') {
+                    UPCOMING
+                  } @else {
+                    ENDED
+                  }
+                </span>
+
+                <span class="category-badge">
+                  {{ auction.category }}
+                </span>
+
+              </div>
+
+
+              <div class="auction-content">
+
+                <h3>
+                  {{ auction.title }}
+                </h3>
+
+                <p class="description">
+                  {{ auction.description }}
+                </p>
+
+
+                <div class="seller-row">
+
+                  <span>
+                    Seller
+                  </span>
+
+                  <strong>
+                    {{ auction.sellerName }}
+                  </strong>
+
+                </div>
+
+
+                <div class="price-section">
+
+                  <div>
+
+                    <span class="price-label">
+                      Current Bid
+                    </span>
+
+                    <strong class="current-price">
+                      ₹{{ auction.currentPrice | number }}
+                    </strong>
+
+                  </div>
+
+                  <div class="bid-count">
+
+                    <span>
+                      {{ auction.totalBids }}
+                    </span>
+
+                    bids
+
+                  </div>
+
+                </div>
+
+
+                <div class="auction-time">
+
+                  <div>
+
+                    <span>
+                      Starts
+                    </span>
+
+                    <strong>
+                      {{ auction.startTime | date:'dd MMM yyyy' }}
+                    </strong>
+
+                  </div>
+
+                  <div>
+
+                    <span>
+                      Ends
+                    </span>
+
+                    <strong>
+                      {{ auction.endTime | date:'dd MMM yyyy' }}
+                    </strong>
+
+                  </div>
+
+                </div>
+
+
+                <button
+                  type="button"
+                  class="view-button"
+                  (click)="viewAuction(auction.id)"
+                >
+
+                  @if (auction.status === 'LIVE') {
+                    View & Bid
+                  } @else if (auction.status === 'UPCOMING') {
+                    View Auction
+                  } @else {
+                    View Details
+                  }
+
+                  <span>
+                    →
+                  </span>
+
+                </button>
+
+              </div>
+
+            </article>
+
+          }
+
+        </div>
+
+      } @else {
+
+        <section class="empty-state">
+
+          <div class="state-icon">
+            🔎
+          </div>
+
+          <h2>
+            No auctions found
+          </h2>
+
+          <p>
+            Try changing your search or filters.
+          </p>
+
+          <button
+            type="button"
+            class="primary-button"
+            (click)="clearFilters()"
+          >
+            Clear Filters
+          </button>
+
+        </section>
+
+      }
+
+    </section>
+
+  }
+
+</div>

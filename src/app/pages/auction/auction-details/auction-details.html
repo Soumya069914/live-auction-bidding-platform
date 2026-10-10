@@ -1,0 +1,166 @@
+
+<div class="details-page">
+
+  <div class="page-topbar">
+    <button
+      type="button"
+      class="back-button"
+      (click)="goBack()"
+    >
+      <span>←</span>
+      Back to Auctions
+    </button>
+
+    <span class="page-label">AUCTION DETAILS</span>
+  </div>
+
+  @if (isLoading) {
+    <section class="state-card">
+      <div class="loading-spinner"></div>
+      <h2>Loading auction...</h2>
+      <p>Fetching the latest auction details.</p>
+    </section>
+  }
+
+  @if (!isLoading && errorMessage) {
+    <section class="state-card error-state">
+      <div class="state-icon">⚠️</div>
+      <h2>Unable to display auction</h2>
+      <p>{{ errorMessage }}</p>
+
+      <button
+        type="button"
+        class="primary-button"
+        (click)="goBack()"
+      >
+        Browse Auctions
+      </button>
+    </section>
+  }
+
+  @if (!isLoading && auction; as item) {
+    <section class="details-layout">
+
+      <div class="product-panel">
+        <div class="product-image-wrapper">
+          <img
+            [src]="item.imageUrl"
+            [alt]="item.title"
+            class="product-image"
+          />
+
+          <span
+            class="status-badge"
+            [class.live]="item.status === 'LIVE'"
+            [class.upcoming]="item.status === 'UPCOMING'"
+            [class.ended]="item.status === 'ENDED'"
+          >
+            @if (item.status === 'LIVE') {
+              ● LIVE AUCTION
+            } @else if (item.status === 'UPCOMING') {
+              UPCOMING
+            } @else {
+              AUCTION ENDED
+            }
+          </span>
+        </div>
+
+        <div class="product-description">
+          <span class="section-label">ABOUT THIS ITEM</span>
+          <h2>Product Description</h2>
+          <p>{{ item.description }}</p>
+
+          <div class="seller-card">
+            <div class="seller-avatar">
+              {{ item.sellerName.charAt(0).toUpperCase() }}
+            </div>
+
+            <div class="seller-info">
+              <span>Listed by</span>
+              <strong>{{ item.sellerName }}</strong>
+            </div>
+
+            <span class="verified-badge">Seller</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="bidding-panel">
+
+        <span class="category-label">
+          {{ item.category }}
+        </span>
+
+        <h1>{{ item.title }}</h1>
+
+        <p class="intro-text">
+          Review the auction information and follow the current bid.
+        </p>
+
+        <div class="price-card">
+          <span class="price-label">
+            {{ item.status === 'UPCOMING' ? 'Starting Price' : 'Current Highest Bid' }}
+          </span>
+
+          <strong class="current-price">
+            ₹{{ (item.status === 'UPCOMING' ? item.startingPrice : item.currentPrice) | number }}
+          </strong>
+
+          <span class="bid-count">
+            {{ item.totalBids }} bids placed
+          </span>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-item">
+            <span>Starting price</span>
+            <strong>₹{{ item.startingPrice | number }}</strong>
+          </div>
+
+          <div class="info-item">
+            <span>Category</span>
+            <strong>{{ item.category }}</strong>
+          </div>
+
+          <div class="info-item">
+            <span>Auction starts</span>
+            <strong>{{ item.startTime | date:'dd MMM yyyy, h:mm a' }}</strong>
+          </div>
+
+          <div class="info-item">
+            <span>Auction ends</span>
+            <strong>{{ item.endTime | date:'dd MMM yyyy, h:mm a' }}</strong>
+          </div>
+        </div>
+
+        @if (item.status === 'LIVE') {
+          <button
+            type="button"
+            class="bid-button"
+            (click)="startBidding()"
+          >
+            Enter Live Bidding
+            <span>→</span>
+          </button>
+        } @else if (item.status === 'UPCOMING') {
+          <div class="status-message upcoming-message">
+            <strong>Auction starts soon</strong>
+            <p>You can return when this auction becomes live.</p>
+          </div>
+        } @else {
+          <div class="status-message ended-message">
+            <strong>This auction has ended</strong>
+            <p>Bidding is no longer available for this item.</p>
+          </div>
+        }
+
+        <p class="security-note">
+          🔒 Auction activity is intended for authenticated users.
+        </p>
+
+      </aside>
+
+    </section>
+  }
+
+</div>

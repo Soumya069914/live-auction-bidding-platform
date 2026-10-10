@@ -1,0 +1,221 @@
+
+<div class="create-auction-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">SELL WITH CONFIDENCE</p>
+      <h1>Create an <span>Auction</span></h1>
+      <p class="subtitle">
+        List your item and let bidders compete for something special.
+      </p>
+    </div>
+
+    <button type="button" class="btn btn-secondary" (click)="cancel()">
+      <span aria-hidden="true">←</span> Back to Auctions
+    </button>
+  </header>
+
+  <div class="form-layout">
+    <section class="form-card">
+      <div class="section-heading">
+        <div class="section-icon">01</div>
+        <div>
+          <h2>Item information</h2>
+          <p>Tell bidders what makes your item special.</p>
+        </div>
+      </div>
+
+      <form (ngSubmit)="submitAuction()" #auctionForm="ngForm" novalidate>
+        <div class="field">
+          <label for="title">Item title <span>*</span></label>
+          <input
+            id="title"
+            name="title"
+            type="text"
+            [(ngModel)]="title"
+            placeholder="e.g. Vintage mechanical watch"
+            minlength="3"
+            maxlength="100"
+            required
+          />
+          <small>Use a clear title between 3 and 100 characters.</small>
+        </div>
+
+        <div class="field">
+          <label for="description">Description <span>*</span></label>
+          <textarea
+            id="description"
+            name="description"
+            [(ngModel)]="description"
+            placeholder="Describe the item's condition, features, and history..."
+            rows="5"
+            minlength="10"
+            maxlength="2000"
+            required
+          ></textarea>
+          <small>Provide at least 10 characters of useful detail.</small>
+        </div>
+
+        <div class="field">
+          <label for="imageUrl">Image URL <span>*</span></label>
+          <input
+            id="imageUrl"
+            name="imageUrl"
+            type="url"
+            [(ngModel)]="imageUrl"
+            placeholder="https://example.com/item.jpg"
+            required
+          />
+          <small>Enter a publicly accessible HTTP or HTTPS image URL.</small>
+        </div>
+
+        <div class="field">
+          <label for="category">Category <span>*</span></label>
+          <select
+            id="category"
+            name="category"
+            [(ngModel)]="category"
+            required
+          >
+            <option *ngFor="let item of categories" [value]="item">
+              {{ item }}
+            </option>
+          </select>
+        </div>
+
+        <div class="section-heading section-heading-spaced">
+          <div class="section-icon">02</div>
+          <div>
+            <h2>Pricing</h2>
+            <p>Set your starting price and minimum bid increase.</p>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="startingPrice">Starting price (₹) <span>*</span></label>
+            <input
+              id="startingPrice"
+              name="startingPrice"
+              type="number"
+              [(ngModel)]="startingPrice"
+              min="0.01"
+              step="0.01"
+              placeholder="5000"
+              required
+            />
+          </div>
+
+          <div class="field">
+            <label for="minimumBidIncrement">
+              Minimum increment (₹) <span>*</span>
+            </label>
+            <input
+              id="minimumBidIncrement"
+              name="minimumBidIncrement"
+              type="number"
+              [(ngModel)]="minimumBidIncrement"
+              min="0.01"
+              step="0.01"
+              placeholder="100"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="section-heading section-heading-spaced">
+          <div class="section-icon">03</div>
+          <div>
+            <h2>Auction schedule</h2>
+            <p>Choose when bidding begins and ends.</p>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="startTime">Start date and time <span>*</span></label>
+            <input
+              id="startTime"
+              name="startTime"
+              type="datetime-local"
+              [(ngModel)]="startTime"
+              required
+            />
+          </div>
+
+          <div class="field">
+            <label for="endTime">End date and time <span>*</span></label>
+            <input
+              id="endTime"
+              name="endTime"
+              type="datetime-local"
+              [(ngModel)]="endTime"
+              required
+            />
+          </div>
+        </div>
+
+        <div *ngIf="errorMessage" class="message message-error" role="alert">
+          {{ errorMessage }}
+        </div>
+
+        <div *ngIf="successMessage" class="message message-success" role="status">
+          {{ successMessage }}
+        </div>
+
+        <div class="form-actions">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="cancel()"
+            [disabled]="isSaving"
+          >
+            Cancel
+          </button>
+
+          <button type="submit" class="btn btn-primary" [disabled]="isSaving">
+            {{ isSaving ? 'Creating auction...' : 'Create Auction →' }}
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <aside class="preview-card">
+      <p class="eyebrow">LIVE PREVIEW</p>
+      <h2>Your listing</h2>
+
+      <div class="preview-image">
+        <img
+          *ngIf="imageUrl"
+          [src]="imageUrl"
+          [alt]="title || 'Auction item preview'"
+          (error)="$any($event.target).style.display='none'"
+        />
+        <div *ngIf="!imageUrl" class="image-placeholder">
+          <span aria-hidden="true">◇</span>
+          <p>Your item image will appear here</p>
+        </div>
+      </div>
+
+      <span class="preview-category">{{ category || 'Category' }}</span>
+      <h3>{{ title || 'Your item title' }}</h3>
+      <p class="preview-description">
+        {{ description || 'Your item description will appear here as you type.' }}
+      </p>
+
+      <div class="preview-price">
+        <span>Starting price</span>
+        <strong>₹{{ startingPrice || 0 | number:'1.2-2' }}</strong>
+      </div>
+
+      <div class="preview-price">
+        <span>Minimum increment</span>
+        <strong>₹{{ minimumBidIncrement || 0 | number:'1.2-2' }}</strong>
+      </div>
+
+      <div class="preview-note">
+        <span aria-hidden="true">✦</span>
+        Check your details carefully before publishing your auction.
+      </div>
+    </aside>
+  </div>
+</div>
