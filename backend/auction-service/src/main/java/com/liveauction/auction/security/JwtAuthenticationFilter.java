@@ -51,3 +51,4 @@ String token = authHeader.substring(7);
                                 )
                         );
 SecurityContextHolder.getContext()
+   .setAuthentication(authentication);
