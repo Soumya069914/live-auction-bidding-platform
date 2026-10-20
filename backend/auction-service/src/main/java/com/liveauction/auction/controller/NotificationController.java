@@ -29,3 +29,16 @@ public class NotificationController {
  public ResponseEntity<List<Notification>> getNotifications(
             Authentication authentication,
             HttpServletRequest request
+{
+
+        Long userId = authenticatedUserId(authentication, request);
+
+        return ResponseEntity.ok(
+                notificationService.getForUser(userId)
+        );
+    }
+@GetMapping("/unread-count")
+    public ResponseEntity<Map<String, Long>> getUnreadCount(
+            Authentication authentication,
+            HttpServletRequest request
+    )
