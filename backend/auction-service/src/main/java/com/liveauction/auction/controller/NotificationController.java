@@ -53,3 +53,9 @@ public class NotificationController {
                 )
         );
     }
+@PatchMapping("/{id}/read")
+    public ResponseEntity<Notification> markRead(
+            @PathVariable Long id,
+            Authentication authentication,
+            HttpServletRequest request
+    )
