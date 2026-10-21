@@ -42,3 +42,14 @@ public class NotificationController {
             Authentication authentication,
             HttpServletRequest request
     )
+{
+
+        Long userId = authenticatedUserId(authentication, request);
+
+        return ResponseEntity.ok(
+                Map.of(
+                        "count",
+                        notificationService.unreadCount(userId)
+                )
+        );
+    }
