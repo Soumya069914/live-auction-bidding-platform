@@ -16,3 +16,5 @@ public class WatchlistController {
 
 private final WatchlistService watchlistService;
     private final AuthUserClient authUserClient;
+public WatchlistController(
+            WatchlistService watchlistService,
