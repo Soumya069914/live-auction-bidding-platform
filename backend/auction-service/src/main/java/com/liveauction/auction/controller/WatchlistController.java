@@ -27,3 +27,8 @@ AuthUserClient authUserClient) {
     public ResponseEntity<?> addToWatchlist(
             @PathVariable Long auctionId,
             @RequestHeader("Authorization") String authorization) {
+ try {
+            String token = authorization.replaceFirst("(?i)^Bearer\\s+", "");
+            Long userId = authUserClient.getUserId(token);
+Watchlist watchlist =
+                    watchlistService.addToWatchlist(userId, auctionId);
