@@ -14,6 +14,7 @@ import java.util.List;
 @RequestMapping("/api/auctions/watchlist")
 public class WatchlistController {
 
+
 private final WatchlistService watchlistService;
     private final AuthUserClient authUserClient;
 public WatchlistController(
@@ -32,3 +33,4 @@ AuthUserClient authUserClient) {
             Long userId = authUserClient.getUserId(token);
 Watchlist watchlist =
                     watchlistService.addToWatchlist(userId, auctionId);
+return ResponseEntity.status(HttpStatus.CREATED).body(watchlist);
