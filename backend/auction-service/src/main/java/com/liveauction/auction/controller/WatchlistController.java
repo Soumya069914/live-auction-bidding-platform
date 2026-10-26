@@ -22,3 +22,8 @@ AuthUserClient authUserClient) {
         this.watchlistService = watchlistService;
         this.authUserClient = authUserClient;
     }
+// Add auction to watchlist
+    @PostMapping("/{auctionId}")
+    public ResponseEntity<?> addToWatchlist(
+            @PathVariable Long auctionId,
+            @RequestHeader("Authorization") String authorization) {
