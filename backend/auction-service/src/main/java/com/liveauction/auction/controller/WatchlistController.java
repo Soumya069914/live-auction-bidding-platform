@@ -18,3 +18,7 @@ private final WatchlistService watchlistService;
     private final AuthUserClient authUserClient;
 public WatchlistController(
             WatchlistService watchlistService,
+AuthUserClient authUserClient) {
+        this.watchlistService = watchlistService;
+        this.authUserClient = authUserClient;
+    }
